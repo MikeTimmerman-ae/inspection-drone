@@ -16,15 +16,25 @@ g = 9.81;           % m/s^2
 lx = 0.225;         % m
 ly = 0.225;         % m
 
+kF = -1;             % N/(rad/s)^2
+kM = 1;             % Nm/(rad/s)^2
+
+G = [kF kF kF kF;
+    0 kF*ly 0 -kF*ly;
+    -kF*lx 0 kF*lx 0;
+    kM -kM kM -kM];
+
+Ginv = inv(G);
+
 %% Obtain linearized model
 
-sim("plant.slx",[0,10]);
+sim("plant_level_0.slx",[0,10]);
 
 % Continuous-time model
-A = plant_Timed_Based_Linearization.a;
-B = plant_Timed_Based_Linearization.b;
-C = plant_Timed_Based_Linearization.c;
-D = plant_Timed_Based_Linearization.d;
+A = plant_level_0_Timed_Based_Linearization.a;
+B = plant_level_0_Timed_Based_Linearization.b;
+C = plant_level_0_Timed_Based_Linearization.c;
+D = plant_level_0_Timed_Based_Linearization.d;
 
 sys = ss(A,B,C,D);
 
@@ -50,9 +60,9 @@ D = plant_level_1_Timed_Based_Linearization.d;
 sys_level_1 = ss(A,B,C,D);
 
 % Feedback control
-Kp_p = 0.4858;
-Kp_q = 0.4858;
-Kp_r = 0.881;
+Kp_p = 0.1216;
+Kp_q = 0.1216;
+Kp_r = 0.2213;
 
 sys_p = tf(Kp_p*sys_level_1(1,1));
 sys_p_cl = feedback(sys_p, 1);
@@ -79,9 +89,9 @@ D = plant_level_2_Timed_Based_Linearization.d;
 sys_level_2 = ss(A,B,C,D);
 
 % Feedback control
-Kp_roll = 14;
-Kp_pitch = 14;
-Kp_yaw = 12;
+Kp_roll = 10.84;
+Kp_pitch = 10.84;
+Kp_yaw = 10.84;
 
 sys_roll = tf(Kp_roll*sys_level_2(1,1));
 sys_roll_cl = feedback(sys_roll, 1);
@@ -109,8 +119,8 @@ D = plant_level_3_Timed_Based_Linearization.d;
 sys_level_3 = ss(A,B,C,D);
 
 % Feedback control
-Kp_vx = -0.3308;
-Kp_vy = 0.3308;
+Kp_vx = -2.5;
+Kp_vy = 2.5;
 Kp_vz = 4.677;
 Td = 1/3;
 Ti = 5/3;
@@ -158,4 +168,4 @@ sys_z_cl = feedback(sys_z, 1);
 
 % Control implementation
 
-position_ref = [0, 3, 0];            % m
+position_ref = [1, 1, 0];            % m
