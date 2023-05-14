@@ -119,8 +119,8 @@ D = plant_level_3_Timed_Based_Linearization.d;
 sys_level_3 = ss(A,B,C,D);
 
 % Feedback control
-Kp_vx = -2.5;
-Kp_vy = 2.5;
+Kp_vx = -0.5;
+Kp_vy = 0.5;
 Kp_vz = 4.677;
 Td = 1/3;
 Ti = 5/3;
