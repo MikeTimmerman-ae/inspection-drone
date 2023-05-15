@@ -5,19 +5,19 @@ close all;
 s=tf('s');
 
 %% Drone poperties
-m = 0.468;          % kg
+m = 10;          % kg
 
-Ix = 4.856e-3;      % kgm^2
-Iy = 4.856e-3;      % kgm^2
-Iz = 8.801e-3;      % kgm^2
+Ix = 0.287503;      % kgm^2
+Iy = 0.287503;      % kgm^2
+Iz = 0.135532;      % kgm^2
 I = diag([Ix Iy Iz]);
 
 g = 9.81;           % m/s^2
-lx = 0.225;         % m
-ly = 0.225;         % m
+lx = 0.4389087297;  % m
+ly = 0.4389087297;  % m
 
-kF = -1;             % N/(rad/s)^2
-kM = 1;             % Nm/(rad/s)^2
+kF = -9.17e-5;             % N/(rad/s)^2
+kM = 3.24e-6;             % Nm/(rad/s)^2
 
 G = [kF kF kF kF;
     0 kF*ly 0 -kF*ly;
@@ -60,9 +60,9 @@ D = plant_level_1_Timed_Based_Linearization.d;
 sys_level_1 = ss(A,B,C,D);
 
 % Feedback control
-Kp_p = 0.1216;
-Kp_q = 0.1216;
-Kp_r = 0.2213;
+Kp_p = 7.1614;
+Kp_q = 7.1614;
+Kp_r = 3.3884;
 
 sys_p = tf(Kp_p*sys_level_1(1,1));
 sys_p_cl = feedback(sys_p, 1);
@@ -119,8 +119,8 @@ D = plant_level_3_Timed_Based_Linearization.d;
 sys_level_3 = ss(A,B,C,D);
 
 % Feedback control
-Kp_vx = -0.5;
-Kp_vy = 0.5;
+Kp_vx = -0.3281;
+Kp_vy = 0.3281;
 Kp_vz = 4.677;
 Td = 1/3;
 Ti = 5/3;
@@ -168,4 +168,4 @@ sys_z_cl = feedback(sys_z, 1);
 
 % Control implementation
 
-position_ref = [1, 1, 0];            % m
+position_ref = [1, 0, 0];            % m
