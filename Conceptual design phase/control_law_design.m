@@ -104,7 +104,7 @@ sys_yaw_cl = feedback(sys_yaw, 1);
 
 % Control implementation
 
-attitude_ref = [15, 10, 0];            % deg/s
+attitude_ref = [20, 20, 0];            % deg/s
 
 %% Linear feedback control velocity angles
 
