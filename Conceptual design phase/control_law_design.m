@@ -121,7 +121,7 @@ sys_level_3 = ss(A,B,C,D);
 % Feedback control
 Kp_vx = -0.3281;
 Kp_vy = 0.3281;
-Kp_vz = 4.677;
+Kp_vz = 100;
 Td = 1/3;
 Ti = 5/3;
 
@@ -155,7 +155,7 @@ sys_level_4 = ss(A,B,C,D);
 % Feedback control
 Kp_x = 1;
 Kp_y = 1;
-Kp_z = 10;
+Kp_z = 1;
 
 sys_x = minreal(tf(Kp_x*sys_level_4(1,1)));
 sys_x_cl = feedback(sys_x, 1);
