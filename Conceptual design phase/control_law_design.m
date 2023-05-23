@@ -138,7 +138,7 @@ sys_vz_cl = feedback(sys_vz, 1);
 
 % Control implementation
 
-velocity_ref = [0.5, 0.5, 0];            % m/s
+velocity_ref = [0.5, 0.5, -0.5];            % m/s
 
 %% Linear feedback control position
 
