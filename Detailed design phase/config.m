@@ -31,3 +31,7 @@ Ginv = inv(G);
 %% Navigation
 
 param.dt = 0.01;
+
+% GPS
+
+
