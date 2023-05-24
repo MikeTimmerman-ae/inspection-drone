@@ -4,9 +4,10 @@ close all;
 
 s=tf('s');
 
-addpath('control\');
-addpath('navigation\');
-addpath('guidance\');
+addpath('control');
+addpath('navigation');
+addpath('navigation/signals');
+addpath('guidance');
 
 %% Drone properties
 global param;
