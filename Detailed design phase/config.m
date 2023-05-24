@@ -38,6 +38,8 @@ Ginv = inv(G);
 param.dt = 0.01;
 
 % GPS
+longitude = 1.791;
+latitude = 53.885;
 
 
 %% Control
