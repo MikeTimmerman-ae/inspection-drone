@@ -1,4 +1,4 @@
-function x_next = stateTransition(x, u)
+function x = stateTransition(x, u)
 %STATETRANSITION Summary of this function goes here
     global param;
 
