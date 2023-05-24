@@ -4,9 +4,10 @@ close all;
 
 s=tf('s');
 
-addpath('control\');
-addpath('navigation\');
-addpath('guidance\');
+addpath('control');
+addpath('navigation');
+addpath('navigation/signals');
+addpath('guidance');
 
 %% Drone properties
 global param;
@@ -37,6 +38,8 @@ Ginv = inv(G);
 param.dt = 0.01;
 
 % GPS
+longitude = 1.791;
+latitude = 53.885;
 
 
 %% Control
