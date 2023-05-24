@@ -4,7 +4,7 @@ close all;
 
 s=tf('s');
 
-%% Drone poperties
+%% Drone properties
 m = 10;          % kg
 
 Ix = 0.287503;      % kgm^2
