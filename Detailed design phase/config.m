@@ -39,6 +39,10 @@ G = [kF kF kF kF;
 
 Ginv = inv(G);
 
+G_radu = [1 1 1 1;
+          0 d_cgtop 0 -d_cgtop;
+          -d_cgtop 0 d_cgtop 0];
+
 
 %% Navigation
 
