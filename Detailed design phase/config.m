@@ -21,8 +21,14 @@ param.I = diag([Ix Iy Iz]);
 param.g = 9.81;           % m/s^2
 d_cgtop = 0.4389087297;  % m
 
-kF = -4.66925492e-4;            % N/(rad/s)^2
-kM = 1.45073741e-5;             % Nm/(rad/s)^2
+% NS26x85
+% kF = -4.66925492e-4;            % N/(rad/s)^2
+% kM = 1.45073741e-5;             % Nm/(rad/s)^2
+
+% MF2211
+kF = -0.00019205;            % N/(rad/s)^2
+kM = 4.90694039e-06;             % Nm/(rad/s)^2
+
 k_loss = 1.219;
 
 G = [kF kF kF kF;
