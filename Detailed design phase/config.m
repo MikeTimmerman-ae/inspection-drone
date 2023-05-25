@@ -39,6 +39,10 @@ G = [kF kF kF kF;
 
 Ginv = inv(G);
 
+G_radu = [1 1 1 1;
+          0 d_cgtop 0 -d_cgtop;
+          -d_cgtop 0 d_cgtop 0];
+
 
 %% Navigation
 
@@ -47,7 +51,7 @@ param.dt = 0.01;
 % IMU
 gyro.wn = 190;                              % natural frequency [rad/s]
 gyro.damping = 0.707;                       % damping ratio [-]
-gyro.noise = 4.5e-3*pi/180/sqrt(acc.wn);    % noise power [rad/s^2/Hz]
+gyro.noise = 4.5e-3*pi/180/sqrt(gyro.wn);    % noise power [rad/s^2/Hz]
 gyro.sat = 250*pi/180;                      % saturation level [rad/s]
 
 acc.wn = 190;                               % natural frequency [rad/s]
