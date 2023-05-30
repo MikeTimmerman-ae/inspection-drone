@@ -31,6 +31,11 @@ R_prop = 0.2794;                     % m
 kF = -0.00019205 / 1.225;            % {Nm/(rad/s)^2} / {kg/m^3}
 kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 
+% T-Motor Antigravity MN6007II KV160
+% with MF2211
+max_ang_vel_motor = 363.716;        % rad/s
+max_ang_acc_motor = 18.7032;        % rad/s^2
+
 k_loss = 1.219;
 
 G = [kF kF kF kF;
@@ -49,6 +54,7 @@ S_y = 147000e-6;            % m^2
 S_z = 209500e-6;            % m^2
 
 C_D_drone = 0.5;
+
 
 %% Navigation
 
