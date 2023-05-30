@@ -34,7 +34,7 @@ kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 % T-Motor Antigravity MN6007II KV160
 % with MF2211
 max_ang_vel_motor = 414;  %for T/W = 2      % rad/s 
-max_ang_acc_motor =  5;   % (estimation)    18.7032;        % rad/s^2
+max_ang_acc_motor =  80;   % (estimation)    18.7032;        % rad/s^2
 
 k_loss = 1.219;
 
