@@ -17,6 +17,7 @@
 
 # Deployable archives
 *.ctf
+*.prj
 
 # Generated helpsearch folders
 helpsearch*/
@@ -25,7 +26,8 @@ helpsearch*/
 slprj/
 sccprj/
 codegen/
-
+resources/
+Drone.prj
 # Cache files
 *.slxc
 
