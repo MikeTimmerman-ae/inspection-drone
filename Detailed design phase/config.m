@@ -87,8 +87,8 @@ Kp_roll = 5.6234;
 Kp_pitch = 5.6234;
 Kp_yaw = 5.6234;
 
-sat_roll = 30;                      % max commandable roll angle [deg]
-sat_pitch = 30;                     % max commandable pitch angle [deg]
+sat_roll = 15;                      % max commandable roll angle [deg]
+sat_pitch = 15;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
