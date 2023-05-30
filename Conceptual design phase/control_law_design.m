@@ -60,9 +60,9 @@ D = plant_level_1_Timed_Based_Linearization.d;
 sys_level_1 = ss(A,B,C,D);
 
 % Feedback control
-Kp_p = 7.1614;
-Kp_q = 7.1614;
-Kp_r = 3.3884;
+Kp_p = 2.874;
+Kp_q = 2.874;
+Kp_r = 1.3536;
 
 sys_p = tf(Kp_p*sys_level_1(1,1));
 sys_p_cl = feedback(sys_p, 1);
@@ -89,9 +89,9 @@ D = plant_level_2_Timed_Based_Linearization.d;
 sys_level_2 = ss(A,B,C,D);
 
 % Feedback control
-Kp_roll = 10.84;
-Kp_pitch = 10.84;
-Kp_yaw = 10.84;
+Kp_roll = 5.6234;
+Kp_pitch = 5.6234;
+Kp_yaw = 5.6234;
 
 sys_roll = tf(Kp_roll*sys_level_2(1,1));
 sys_roll_cl = feedback(sys_roll, 1);
@@ -119,8 +119,8 @@ D = plant_level_3_Timed_Based_Linearization.d;
 sys_level_3 = ss(A,B,C,D);
 
 % Feedback control
-Kp_vx = -0.3281;
-Kp_vy = 0.3281;
+Kp_vx = -0.2723;
+Kp_vy = 0.2723;
 Kp_vz = 100;
 Td = 1/3;
 Ti = 5/3;

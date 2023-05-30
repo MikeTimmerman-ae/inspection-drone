@@ -27,8 +27,9 @@ d_cgtop = 0.4389087297;  % m
 % kM = 1.45073741e-5;             % Nm/(rad/s)^2
 
 % MF2211
-kF = -0.00019205;            % N/(rad/s)^2
-kM = 4.90694039e-06;             % Nm/(rad/s)^2
+R_prop = 0.2794;                     % m            
+kF = -0.00019205 / 1.225;            % {Nm/(rad/s)^2} / {kg/m^3}
+kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 
 k_loss = 1.219;
 
@@ -51,13 +52,19 @@ param.dt = 0.01;
 % IMU
 gyro.wn = 190;                              % natural frequency [rad/s]
 gyro.damping = 0.707;                       % damping ratio [-]
-gyro.noise = 4.5e-3*pi/180/sqrt(gyro.wn);    % noise power [rad/s^2/Hz]
+gyro.noise = 4.5e-3*pi/180/sqrt(gyro.wn);   % noise power [rad/s^2/Hz]
 gyro.sat = 250*pi/180;                      % saturation level [rad/s]
+gyro.noise = 4.5e-3*pi/180;                 % gyrometer noise [rad/s]
+gyro.offset_stability = 10e-3*pi/180;       % gyrometer offset stability [rad/s/C]
+gyro.sensitivity_temp = 0.045;              % gyrometer sensitivity/temp [%/C]
 
 acc.wn = 190;                               % natural frequency [rad/s]
 acc.damping = 0.707;                        % damping ratio [-]
 acc.noise = 100e-6*param.g/sqrt(acc.wn);    % noise power [m/s^2/Hz]
 acc.sat = 4*param.g;                        % saturation level m/s^2
+acc.noise = 100e-6*param.g;                 % accelerometer noise [m/s^2/sqrt(Hz)]
+acc.offset_stability = 0.15e-3*param.g;     % accelerometer offset stability [m/s^2/C]
+acc.sensitivity_temp = 0.007;               % acceleromter sensitivity/temp [%/C]
 
 % GPS
 longitude = 1.791;
@@ -66,27 +73,27 @@ latitude = 53.885;
 
 %% Control
 
-% Feedback control
-Kp_p = 7.1614;
-Kp_q = 7.1614;
-Kp_r = 3.3884;
+% Feedback control (angular velocity loop)
+Kp_p = 2.874;
+Kp_q = 2.874;
+Kp_r = 1.3536;
 
-sat_p = 200;                        % max commandable p [deg/s]
-sat_q = 200;                        % max commandable q [deg/s]
-sat_r = 200;                        % max commandable r [deg/s]
+sat_p = 50;                        % max commandable p [deg/s]
+sat_q = 50;                        % max commandable q [deg/s]
+sat_r = 50;                        % max commandable r [deg/s]
 
-% Feedback control
-Kp_roll = 10.84;
-Kp_pitch = 10.84;
-Kp_yaw = 10.84;
+% Feedback control (attitude loop)
+Kp_roll = 5.6234;
+Kp_pitch = 5.6234;
+Kp_yaw = 5.6234;
 
-sat_roll = 45;                      % max commandable roll angle [deg]
-sat_pitch = 45;                     % max commandable pitch angle [deg]
+sat_roll = 30;                      % max commandable roll angle [deg]
+sat_pitch = 30;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
-% Feedback control
-Kp_vx = -0.3281;
-Kp_vy = 0.3281;
+% Feedback control (velocity loop)
+Kp_vx = -0.2723;
+Kp_vy = 0.2723;
 Kp_vz = 100;
 Td = 1/3;
 Ti = 5/3;
@@ -97,7 +104,11 @@ sat_Vx = 10;                     % max commandable velocity [m/s]
 sat_Vy = 10;                     % max commandable velocity [m/s]
 sat_Vz = 15;                     % max commandable velocity [m/s]
 
-% Feedback control
+n = 51;
+Wn = 0.07;
+b = fir1(n,Wn,'low');
+
+% Feedback control (position loop)
 Kp_x = 1;
 Kp_y = 1;
 Kp_z = 1;
