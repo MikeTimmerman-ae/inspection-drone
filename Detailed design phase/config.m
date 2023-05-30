@@ -12,7 +12,7 @@ addpath('models');
 
 %% Drone properties
 global param;
-param.m = 10;          % kg
+param.m = 11;          % kg
 
 Ix = 0.287503;      % kgm^2
 Iy = 0.287503;      % kgm^2
@@ -23,8 +23,8 @@ param.g = 9.81;           % m/s^2
 d_cgtop = 0.4389087297;  % m
 
 % NS26x85
-% kF = -4.66925492e-4;            % N/(rad/s)^2
-% kM = 1.45073741e-5;             % Nm/(rad/s)^2
+% kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
+% kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
 
 % MF2211
 R_prop = 0.2794;                     % m            
@@ -44,6 +44,11 @@ G_radu = [1 1 1 1;
           0 d_cgtop 0 -d_cgtop;
           -d_cgtop 0 d_cgtop 0];
 
+S_x = 85000e-6;             % m^2
+S_y = 147000e-6;            % m^2
+S_z = 209500e-6;            % m^2
+
+C_D_drone = 0.5;
 
 %% Navigation
 
