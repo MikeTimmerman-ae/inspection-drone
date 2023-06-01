@@ -58,7 +58,7 @@ C_D_drone = 0.5;
 
 %% Navigation
 
-param.dt = 0.01;
+param.dt = 0.001;
 
 % IMU
 gyro.wn = 190;                              % natural frequency [rad/s]
