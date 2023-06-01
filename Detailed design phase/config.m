@@ -19,8 +19,8 @@ Iy = 0.287503;      % kgm^2
 Iz = 0.135532;      % kgm^2
 param.I = diag([Ix Iy Iz]);
 
-param.g = 9.81;           % m/s^2
-d_cgtop = 0.4389087297;  % m
+param.g = 9.80665;           % m/s^2
+d_cgtop = 0.49498;  % m
 
 % NS26x85
 % kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
