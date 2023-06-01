@@ -58,7 +58,7 @@ C_D_drone = 0.5;
 
 %% Navigation
 
-param.dt = 0.01;
+param.dt = 0.001;
 
 % IMU
 gyro.wn = 190;                              % natural frequency [rad/s]
@@ -123,3 +123,8 @@ b = fir1(n,Wn,'low');
 Kp_x = 1;
 Kp_y = 1;
 Kp_z = 1;
+myDictionaryObj = Simulink.data.dictionary.open('uavPackageDeliveryDataDict.sldd');
+dDataSectObj = getSection(myDictionaryObj,'Design Data');
+innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
+UAVPathManagerBus = getValue(getEntry(dDataSectObj, "uavPathManagerBus"));
+baseMission = getValue(getEntry(dDataSectObj, "baseMission"));
