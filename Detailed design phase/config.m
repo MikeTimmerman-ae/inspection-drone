@@ -132,3 +132,8 @@ dDataSectObj = getSection(myDictionaryObj,'Design Data');
 innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
 UAVPathManagerBus = getValue(getEntry(dDataSectObj, "uavPathManagerBus"));
 baseMission = getValue(getEntry(dDataSectObj, "baseMission"));
+
+
+waypoints = [0 -25 -50 -75;0 -25 -50 -75;-15 -15 -20 0];
+From = [0 0 1 0 0 0];
+To = [200 200 200 0 0 0];
