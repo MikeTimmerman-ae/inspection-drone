@@ -21,13 +21,19 @@ Iz = 0.135532;      % kgm^2
 param.I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
-d_cgtop = 0.49498;          % m
+d_cgtop = 0.8175 / sqrt(2);          % m
+
+% coaxial considerations
+k_loss = 1.219;
+k_counter = 2 / k_loss - 1; 
 
 
 % NS26x85
 kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
+kF2 = kF * (1 + k_counter);
 kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
-k_loss = 1.219;
+kM2 = kM * (1 - k_counter);
+
 
 % MF2211
 %R_prop = 0.2794;                     % m            
@@ -40,7 +46,11 @@ TO_time = 0.2;              % s
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
-
+G_control_allocation = [kF2 kF2 kF2 kF2;
+                        0 kF2*d_cgtop 0 -kF2*d_cgtop;
+                        -kF2*d_cgtop 0 kF2*d_cgtop 0;
+                        kM2 -kM2 kM2 -kM2];
+G_control_allocation_inv = inv(G_control_allocation);
 
 G = [kF kF kF kF;
     0 kF*d_cgtop 0 -kF*d_cgtop;
@@ -132,8 +142,14 @@ dDataSectObj = getSection(myDictionaryObj,'Design Data');
 innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
 UAVPathManagerBus = getValue(getEntry(dDataSectObj, "uavPathManagerBus"));
 baseMission = getValue(getEntry(dDataSectObj, "baseMission"));
+copybaseMission = getValue(getEntry(dDataSectObj, "baseMission"));
+test_map = load("testing_map.mat", "-mat", "omap3D");
 
 
-waypoints = [0 -25 -50 -75;0 -25 -50 -75;-15 -15 -20 0];
-From = [0 0 1 0 0 0];
-To = [200 200 200 0 0 0];
+From = [0, 0, 1, 0, 0, 0];
+To = [200, 200, 100, 0, 0, 0];
+
+
+turbine_1_pos = [60, 45, 110, 0, 0, 0];
+
+
