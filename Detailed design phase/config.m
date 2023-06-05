@@ -128,3 +128,14 @@ dDataSectObj = getSection(myDictionaryObj,'Design Data');
 innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
 UAVPathManagerBus = getValue(getEntry(dDataSectObj, "uavPathManagerBus"));
 baseMission = getValue(getEntry(dDataSectObj, "baseMission"));
+copybaseMission = getValue(getEntry(dDataSectObj, "baseMission"));
+test_map = load("testing_map.mat", "-mat", "omap3D");
+
+
+From = [0, 0, 1, 0, 0, 0];
+To = [200, 200, 100, 0, 0, 0];
+
+
+turbine_1_pos = [60, 45, 110, 0, 0, 0];
+
+
