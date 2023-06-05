@@ -12,6 +12,7 @@ addpath('models');
 
 %% Drone properties
 global param;
+
 param.m = 11;          % kg
 
 Ix = 0.287503;      % kgm^2
@@ -20,23 +21,36 @@ Iz = 0.135532;      % kgm^2
 param.I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
-d_cgtop = 0.49498;  % m
+d_cgtop = 0.8175 / sqrt(2);          % m
+
+% coaxial considerations
+k_loss = 1.219;
+k_counter = 2 / k_loss - 1; 
+
 
 % NS26x85
-% kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
-% kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
+kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
+kF2 = kF * (1 + k_counter);
+kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
+kM2 = kM * (1 - k_counter);
+
 
 % MF2211
-R_prop = 0.2794;                     % m            
-kF = -0.00019205 / 1.225;            % {N/(rad/s)^2} / {kg/m^3}
-kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
+%R_prop = 0.2794;                     % m            
+%kF = -0.00019205 / 1.225;            % {N/(rad/s)^2} / {kg/m^3}
+%kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 
 % T-Motor Antigravity MN6007II KV160
-% with MF2211
-max_ang_vel_motor = 414;  %for T/W = 2      % rad/s 
-max_ang_acc_motor =  80;   % (estimation)    18.7032;        % rad/s^2
+% with NS26x85
+TO_time = 0.2;              % s
+max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
-k_loss = 1.219;
+
+G_control_allocation = [kF2 kF2 kF2 kF2;
+                        0 kF2*d_cgtop 0 -kF2*d_cgtop;
+                        -kF2*d_cgtop 0 kF2*d_cgtop 0;
+                        kM2 -kM2 kM2 -kM2];
+G_control_allocation_inv = inv(G_control_allocation);
 
 G = [kF kF kF kF;
     0 kF*d_cgtop 0 -kF*d_cgtop;
