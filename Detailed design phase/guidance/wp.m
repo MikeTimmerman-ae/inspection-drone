@@ -3,6 +3,7 @@ function [waypoints, nWayPoints, states] = wp(From ,To, omap)
     
     
     ss = stateSpaceSE2;
+
     ss.StateBounds = [omap.XWorldLimits; omap.YWorldLimits; [-pi pi]];
     sv = validatorOccupancyMap(ss);
     sv.Map = omap;
@@ -27,7 +28,7 @@ function [waypoints, nWayPoints, states] = wp(From ,To, omap)
     
     
     waypoints = pthObj.States;
-    disp(waypoints)
+   
     nWayPoints = pthObj.NumStates;
     
     
@@ -39,53 +40,61 @@ function [waypoints, nWayPoints, states] = wp(From ,To, omap)
     UAVspeed = 3;
     timepoints = cumsum(distance/UAVspeed);
     nSamples = 20;
+
+    disp(timepoints)
     
     % Compute states along the trajectory
     initialStates = minsnappolytraj(waypoints',timepoints,nSamples,MinSegmentTime=0.1,MaxSegmentTime=20,TimeAllocation=true,TimeWeight=100)';
     
     states = initialStates;
-    % valid = all(isStateValid(sv,states));
+    valid = all(isStateValid(sv,states));
     
-    % while(~valid)
-    %     % Check the validity of the states
-    %     validity = isStateValid(sv,states);
-    % 
-    %     % Map the states to the corresponding waypoint segments
-    %     segmentIndices = exampleHelperMapStatesToPathSegments(waypoints,states);
-    % 
-    %     % Get the segments for the invalid states
-    %     % Use unique, because multiple states in the same segment might be invalid
-    %     invalidSegments = unique(segmentIndices(~validity));
-    % 
-    %     % Add intermediate waypoints on the invalid segments
-    %     for i = 1:size(invalidSegments)
-    %         midpoint = zeros(7);
-    %         segment = invalidSegments(i);
-    % 
-    %         % Take the midpoint of the position to get the intermediate position
-    %         midpoint(1:3) = (waypoints(segment,1:3) + waypoints(segment+1,1:3))/2;
-    % 
-    %         % Spherically interpolate the quaternions to get the intermediate quaternion
-    %         midpoint(4:7) = slerp(quaternion(waypoints(segment,4:7)),quaternion(waypoints(segment+1,4:7)),.5).compact;
-    %         waypoints = [waypoints(1:segment,:); midpoint; waypoints(segment+1:end,:)];
-    % 
-    %     end
-    % 
-    %     nWayPoints = size(waypoints,1);
-    %     distance = zeros(1,nWayPoints);
-    %     for i = 2:nWayPoints
-    %         distance(i) = norm(waypoints(i,1:3) - waypoints(i-1,1:3));
-    %     end
-    %     sum(distance)
-    %     % Calculate the time taken to reach each waypoint
-    %     timepoints = cumsum(distance/UAVspeed);
-    % 
-    %     states = minsnappolytraj(waypoints',timepoints,nSamples,MinSegmentTime=1,MaxSegmentTime=20,TimeAllocation=true,TimeWeight=5000)';    
-    % 
-    %     % Check if the new trajectory is valid
-    %     valid = all(isStateValid(sv,states));
-    % 
-    % end
-    disp(states);
+    while(~valid)
+        % Check the validity of the states
+        validity = isStateValid(sv,states);
+
+        % Map the states to the corresponding waypoint segments
+        segmentIndices = helper_wp(waypoints,states);
+
+        % Get the segments for the invalid states
+        % Use unique, because multiple states in the same segment might be invalid
+        invalidSegments = unique(segmentIndices(~validity));
+
+        % Add intermediate waypoints on the invalid segments
+        for i = 1:size(invalidSegments)
+            midpoint = zeros(1, 3);
+            segment = invalidSegments(i);
+
+            % Take the midpoint of the position to get the intermediate position
+            midpoint(1:2) = (waypoints(segment,1:2) + waypoints(segment+1,1:2))/2;
+
+            % Spherically interpolate the quaternions to get the intermediate quaternion
+            midpoint(3) = (waypoints(segment,3) + waypoints(segment+1,3))/2;
+            disp(midpoint)
+            disp(waypoints)
+            waypoints = [waypoints(1:segment,:); midpoint; waypoints(segment+1:end,:)];
+
+        end
+        disp(waypoints)
+     
+        nWayPoints = size(waypoints,1);
+        distance = zeros(1,nWayPoints);
+        for i = 2:nWayPoints
+            distance(i) = norm(waypoints(i,1:2) - waypoints(i-1,1:2));
+        end
+        sum(distance)
+       
+        % Calculate the time taken to reach each waypoint
+        timepoints = cumsum(distance/UAVspeed);
+        disp(timepoints)
+
+        % states = minsnappolytraj(waypoints',timepoints,nSamples,MinSegmentTime=0.1,MaxSegmentTime=20,TimeAllocation=true,TimeWeight=5000)'; 
+        states = minsnappolytraj(waypoints',timepoints,nSamples,MinSegmentTime=0.1,MaxSegmentTime=20,TimeAllocation=true,TimeWeight=100)';
+
+        % Check if the new trajectory is valid
+        valid = all(isStateValid(sv,states));
+
+    end
+    
     
 end
