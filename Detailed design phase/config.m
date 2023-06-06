@@ -1,4 +1,4 @@
-c;
+clc;
 clear;
 close all;
 
