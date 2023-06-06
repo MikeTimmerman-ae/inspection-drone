@@ -9,7 +9,6 @@ addpath('navigation');
 addpath('navigation/signals');
 addpath('guidance');
 addpath('models');
-addpath('verification/model')
 
 %% Drone properties
 global param;
