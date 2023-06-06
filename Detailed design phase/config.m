@@ -1,4 +1,4 @@
-c;
+clc;
 clear;
 close all;
 
@@ -9,7 +9,7 @@ addpath('navigation');
 addpath('navigation/signals');
 addpath('guidance');
 addpath('models');
-addpath('verification/model')
+addpath('verification/model/test_inputs/')
 
 %% Drone properties
 global param;
