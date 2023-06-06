@@ -9,5 +9,5 @@ function y = accelerometer_model(x)
 %     y = [sin(theta);
 %         -cos(theta)*sin(phi);
 %         cos(phi)*cos(theta)]*g;
-    y = x(7:8);
+    y = x(7:9);
 end
