@@ -112,8 +112,8 @@ Kp_roll = 5.6234;
 Kp_pitch = 5.6234;
 Kp_yaw = 5.6234;
 
-sat_roll = 15;                      % max commandable roll angle [deg]
-sat_pitch = 15;                     % max commandable pitch angle [deg]
+sat_roll = 20;                      % max commandable roll angle [deg]
+sat_pitch = 20;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
@@ -127,7 +127,7 @@ Dc = (Td*s+1)*(1+1/(Ti*s));
 
 sat_Vx = 10;                     % max commandable velocity [m/s]
 sat_Vy = 10;                     % max commandable velocity [m/s]
-sat_Vz = 15;                     % max commandable velocity [m/s]
+sat_Vz = 20;                     % max commandable velocity [m/s]
 
 n = 51;
 Wn = 0.07;
