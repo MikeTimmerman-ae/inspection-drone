@@ -14,7 +14,7 @@ addpath('verification/model/test_inputs/')
 %% Drone properties
 global param;
 
-param.m = 11;          % kg
+param.m = 12;          % kg
 
 Ix = 0.287503;      % kgm^2
 Iy = 0.287503;      % kgm^2
@@ -68,7 +68,7 @@ S_x = 85000e-6;             % m^2
 S_y = 147000e-6;            % m^2
 S_z = 209500e-6;            % m^2
 
-C_D_drone = 0.5;
+C_D_drone = 0.8;
 
 
 %% Navigation
