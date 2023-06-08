@@ -54,7 +54,7 @@ disp(states_tot);
 
 
 
-number_of_points = size(states_tot, 1);
+number_of_points = size(waypoints_tot, 1);
 
 mode_vector = zeros(number_of_points, 1)+2;
 mode_vector(1, 1) =  1;
@@ -70,13 +70,29 @@ waypoint_struct(1).mode = uint8(1) ;
 waypoint_struct(1).position = single([0;0;-15]);
 waypoint_struct(1).params = single([0;0;0;0]);
 waypoint_struct(number_of_points).mode = uint8(7) ;
-waypoint_struct(number_of_points).position = single([states_tot(number_of_points,1);states_tot(number_of_points,2);-15]);
+waypoint_struct(number_of_points).position = single([waypoints_tot(number_of_points,1);waypoints_tot(number_of_points,2);-15]);
 waypoint_struct(number_of_points).params = single([-1;-1;-1;-1]);
 
 
+% for j = 2:number_of_points
+%     a = states_tot(j-1, 1) - states_tot(j, 1);
+%     o = states_tot(j-1, 2) - states_tot(j, 2);
+%     ang = atan(o/a);
+%     disp(ang);
+% 
+% end
+
 for i = 2:number_of_points-1
     waypoint_struct(i).mode = uint8(mode_vector(i,1)) ;
-    waypoint_struct(i).position = single([states_tot(i,1);states_tot(i,2);-15]);
+    waypoint_struct(i).position = single([waypoints_tot(i,1);waypoints_tot(i,2);-15]);
+    u = [waypoints_tot(i, 1) - waypoints_tot(i-1, 1); waypoints_tot(i, 2) - waypoints_tot(i-1, 2)];
+    v = [waypoints_tot(i, 1) - waypoints_tot(i-1, 1); 0];
+    dotUV = dot(u, v);
+    normU = norm(u);
+    normV = norm(v);
+
+    theta = acos(dotUV/(normU * normV));
+    disp(theta)
     waypoint_struct(i).params = single([0;0;0;0]);
 end
 
