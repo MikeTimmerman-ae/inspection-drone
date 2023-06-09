@@ -23,6 +23,7 @@ param.I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
 d_cgtop = 0.8175 / sqrt(2);          % m
+d_ptop = 0.8175 ;          % m
 
 % coaxial considerations
 k_loss = 1.219;
@@ -48,24 +49,17 @@ max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
 G_control_allocation = [kF2 kF2 kF2 kF2;
-                        0 kF2*d_cgtop 0 -kF2*d_cgtop;
-                        -kF2*d_cgtop 0 kF2*d_cgtop 0;
+                        kF2*d_ptop/2 kF2*d_ptop/2 -kF2*d_ptop/2 -kF2*d_ptop/2;
+                        -kF2*d_ptop/2 kF2*d_ptop/2 kF2*d_ptop/2 -kF2*d_ptop/2;
                         kM2 -kM2 kM2 -kM2];
 G_control_allocation_inv = inv(G_control_allocation);
 
-G = [kF kF kF kF;
-    0 kF*d_cgtop 0 -kF*d_cgtop;
-    -kF*d_cgtop 0 kF*d_cgtop 0;
-    kM -kM kM -kM];
-
-Ginv = inv(G);
-
 G_radu = [1 1 1 1;
-          0 d_cgtop 0 -d_cgtop;
-          -d_cgtop 0 d_cgtop 0];
+          d_ptop/2 d_ptop/2 -d_ptop/2 -d_ptop/2;
+          -d_ptop/2 d_ptop/2 d_ptop/2 -d_ptop/2];
 
-S_x = 85000e-6;             % m^2
-S_y = 147000e-6;            % m^2
+S_x = 147000e-6;            % m^2
+S_y = 85000e-6;             % m^2
 S_z = 209500e-6;            % m^2
 
 C_D_drone = 0.8;
