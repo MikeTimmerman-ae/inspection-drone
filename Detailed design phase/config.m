@@ -100,27 +100,27 @@ latitude = 53.885;
 %% Control
 
 % Feedback control (angular velocity loop)
-Kp_p = 2.874;
-Kp_q = 2.874;
-Kp_r = 1.3536;
+Kp_p = 11.350;
+Kp_q = 6.1660;
+Kp_r = 15.136;
 
 sat_p = 50;                        % max commandable p [deg/s]
 sat_q = 50;                        % max commandable q [deg/s]
 sat_r = 50;                        % max commandable r [deg/s]
 
 % Feedback control (attitude loop)
-Kp_roll = 5.6234;
-Kp_pitch = 5.6234;
-Kp_yaw = 5.6234;
+Kp_roll = 1.9724;
+Kp_pitch = 1.9724;
+Kp_yaw = 1.9724;
 
 sat_roll = 20;                      % max commandable roll angle [deg]
 sat_pitch = 20;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
-Kp_vx = -0.2723;
-Kp_vy = 0.2723;
-Kp_vz = 100;
+Kp_vx = -0.15135;
+Kp_vy = 0.15135;
+Kp_vz = 6.02560;
 Td = 1/3;
 Ti = 5/3;
 
@@ -135,9 +135,9 @@ Wn = 0.07;
 b = fir1(n,Wn,'low');
 
 % Feedback control (position loop)
-Kp_x = 1;
-Kp_y = 1;
-Kp_z = 1;
+Kp_x = 0.83272;
+Kp_y = 0.83272;
+Kp_z = 0.5290;
 myDictionaryObj = Simulink.data.dictionary.open('uavPackageDeliveryDataDict.sldd');
 dDataSectObj = getSection(myDictionaryObj,'Design Data');
 innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
