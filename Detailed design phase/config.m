@@ -31,7 +31,7 @@ k_counter = 2 / k_loss - 1;
 
 
 % NS26x85
-kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
+kF = 4.66925492e-4 / 1.225;            % N/(rad/s)^2
 kF2 = kF * (1 + k_counter);
 kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
 kM2 = kM * (1 - k_counter);
@@ -48,15 +48,16 @@ TO_time = 0.2;              % s
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
-G_control_allocation = [kF2 kF2 kF2 kF2;
-                        kF2*d_ptop/2 kF2*d_ptop/2 -kF2*d_ptop/2 -kF2*d_ptop/2;
-                        -kF2*d_ptop/2 kF2*d_ptop/2 kF2*d_ptop/2 -kF2*d_ptop/2;
+G_control_allocation = [-kF2 -kF2 -kF2 -kF2;
+                        -kF2*d_ptop/2 -kF2*d_ptop/2 kF2*d_ptop/2 kF2*d_ptop/2;
+                        kF2*d_ptop/2 -kF2*d_ptop/2 -kF2*d_ptop/2 kF2*d_ptop/2;
                         kM2 -kM2 kM2 -kM2];
 G_control_allocation_inv = inv(G_control_allocation);
 
-G_radu = [1 1 1 1;
-          d_ptop/2 d_ptop/2 -d_ptop/2 -d_ptop/2;
-          -d_ptop/2 d_ptop/2 d_ptop/2 -d_ptop/2];
+G_radu = [-kF, -kF*k_counter, -kF, -kF*k_counter, -kF, -kF*k_counter, -kF, -kF*k_counter;
+           -kF*d_ptop/2, -kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter;  
+           kF*d_ptop/2, kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter;
+           kM, -kM*k_counter, -kM, kM*k_counter, kM, -kM*k_counter, -kM, kM*k_counter];
 
 S_x = 147000e-6;            % m^2
 S_y = 85000e-6;             % m^2
