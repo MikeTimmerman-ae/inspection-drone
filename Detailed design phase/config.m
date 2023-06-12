@@ -31,9 +31,9 @@ k_counter = 2 / k_loss - 1;
 
 
 % NS26x85
-kF = 4.66925492e-4 / 1.225;            % N/(rad/s)^2
+kF = 0.00037257456483943437;            % N/(rad/s)^2
 kF2 = kF * (1 + k_counter);
-kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
+kM = 1.1454812375861364e-05;             % Nm/(rad/s)^2
 kM2 = kM * (1 - k_counter);
 
 
