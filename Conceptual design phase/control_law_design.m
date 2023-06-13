@@ -60,7 +60,7 @@ D = plant_level_1_Timed_Based_Linearization.d;
 sys_level_1 = ss(A,B,C,D);
 
 % Feedback control
-Kp_p = 11.350;
+Kp_p = 11.275;
 Kp_q = 6.1660;
 Kp_r = 15.136;
 
@@ -89,9 +89,9 @@ D = plant_level_2_Timed_Based_Linearization.d;
 sys_level_2 = ss(A,B,C,D);
 
 % Feedback control
-Kp_roll = 1.9724;
-Kp_pitch = 1.9724;
-Kp_yaw = 1.9724;
+Kp_roll = 2.5734;
+Kp_pitch = 2.5734;
+Kp_yaw = 2.5734;
 
 sys_roll = tf(Kp_roll*sys_level_2(1,1));
 sys_roll_cl = feedback(sys_roll, 1);
@@ -106,6 +106,51 @@ sys_yaw_cl = feedback(sys_yaw, 1);
 
 attitude_ref = [20, 20, 0];            % deg/s
 
+%% Attitude feedback control position
+
+sim("plant_level_5.slx",[0,10]);
+
+% Continuous-time model
+A = plant_level_5_Timed_Based_Linearization.a;
+B = plant_level_5_Timed_Based_Linearization.b;
+C = plant_level_5_Timed_Based_Linearization.c;
+D = plant_level_5_Timed_Based_Linearization.d;
+
+A_full = [A(1:6,1:6) zeros(6,3);
+         -C(:,1:6) zeros(3,3)];
+B_full = [B(1:6,:); zeros(3,3)];
+
+sys_level_5 = ss(A_full, B_full, [eye(3) zeros(3,6)], zeros(3,3));
+
+Q = diag([1 1 1 1 1 1 10 10 10]);
+R = 1e-2*diag([1 1 1]);
+K = lqr(A_full, B_full, Q, R);
+
+sys_level_5_cl = ss(A_full-B_full*K, [zeros(6,3); eye(3)], [eye(3) zeros(3,6)], zeros(3));
+
+%% plot attitude loop
+
+t = 0:0.001:20;
+roll_ref = 0.087266*[zeros(1,1000) ones(1,4001) zeros(1,15000)];
+pitch_ref = 0.087266*[zeros(1,7000) ones(1,4001) zeros(1,9000)];
+yaw_ref = 0.087266*[zeros(1,13000) ones(1,4001) zeros(1,3000)];
+
+[y_PID_roll, ~, ~] = lsim(sys_roll_cl,roll_ref,t);
+[y_PID_pitch, ~, ~] = lsim(sys_pitch_cl,pitch_ref,t);
+[y_PID_yaw, ~, ~] = lsim(sys_yaw_cl,yaw_ref,t);
+
+[y_FULL, ~, ~] = lsim(sys_level_5_cl,[roll_ref; pitch_ref; yaw_ref],t);
+
+figure()
+subplot(3,1,1)
+plot(t, y_PID_roll, t, y_FULL(:,1), t, roll_ref);
+
+subplot(3,1,2)
+plot(t, y_PID_pitch, t, y_FULL(:,2), t, pitch_ref);
+
+subplot(3,1,3)
+plot(t, y_PID_yaw, t, y_FULL(:,3), t, yaw_ref);
+
 %% Linear feedback control velocity angles
 
 sim("plant_level_3.slx",[0,10]);
@@ -119,11 +164,11 @@ D = plant_level_3_Timed_Based_Linearization.d;
 sys_level_3 = ss(A,B,C,D);
 
 % Feedback control
-Kp_vx = -0.15135;
-Kp_vy = 0.15135;
-Kp_vz = 6.02560;
-Td = 1/3;
-Ti = 5/3;
+Kp_vx = -0.05623;
+Kp_vy = 0.05623;
+Kp_vz = 6.0256;
+Td = 2/1;
+Ti = 10/1;
 
 Dc = (Td*s+1)*(1+1/(Ti*s));
 
