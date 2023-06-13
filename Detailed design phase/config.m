@@ -1,6 +1,6 @@
-clc;
-clear;
-close all;
+% clc;
+% clear;
+% close all;
 
 s = tf('s');
 
@@ -9,19 +9,21 @@ addpath('navigation');
 addpath('navigation/signals');
 addpath('guidance');
 addpath('models');
+addpath('verification/model/test_inputs/')
 
 %% Drone properties
 global param;
 
-param.m = 11;          % kg
+param.m = 12.0248;          % kg
 
-Ix = 0.287503;      % kgm^2
-Iy = 0.287503;      % kgm^2
-Iz = 0.135532;      % kgm^2
+Ix = 1.12755;      % kgm^2
+Iy = 0.61461;      % kgm^2
+Iz = 1.51166;      % kgm^2
 param.I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
 d_cgtop = 0.8175 / sqrt(2);          % m
+d_ptop = 0.8175 ;          % m
 
 % coaxial considerations
 k_loss = 1.219;
@@ -29,9 +31,9 @@ k_counter = 2 / k_loss - 1;
 
 
 % NS26x85
-kF = -4.66925492e-4 / 1.225;            % N/(rad/s)^2
+kF = 0.00037257456483943437;            % N/(rad/s)^2
 kF2 = kF * (1 + k_counter);
-kM = 1.45073741e-5 / 1.225;             % Nm/(rad/s)^2
+kM = 1.1454812375861364e-05;             % Nm/(rad/s)^2
 kM2 = kM * (1 - k_counter);
 
 
@@ -42,32 +44,27 @@ kM2 = kM * (1 - k_counter);
 
 % T-Motor Antigravity MN6007II KV160
 % with NS26x85
-TO_time = 0.2;              % s
+TO_time = 0.05;              % s
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
-G_control_allocation = [kF2 kF2 kF2 kF2;
-                        0 kF2*d_cgtop 0 -kF2*d_cgtop;
-                        -kF2*d_cgtop 0 kF2*d_cgtop 0;
+G_control_allocation = [-kF2 -kF2 -kF2 -kF2;
+                        -kF2*d_ptop/2 -kF2*d_ptop/2 kF2*d_ptop/2 kF2*d_ptop/2;
+                        kF2*d_ptop/2 -kF2*d_ptop/2 -kF2*d_ptop/2 kF2*d_ptop/2;
                         kM2 -kM2 kM2 -kM2];
 G_control_allocation_inv = inv(G_control_allocation);
 
-G = [kF kF kF kF;
-    0 kF*d_cgtop 0 -kF*d_cgtop;
-    -kF*d_cgtop 0 kF*d_cgtop 0;
-    kM -kM kM -kM];
+G_radu = [-kF, -kF*k_counter, -kF, -kF*k_counter, -kF, -kF*k_counter, -kF, -kF*k_counter;
+           -kF*d_ptop/2, -kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter;  
+           kF*d_ptop/2, kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, -kF*d_ptop/2, -kF*d_ptop/2*k_counter, kF*d_ptop/2, kF*d_ptop/2*k_counter;
+           kM, -kM*k_counter, -kM, kM*k_counter, kM, -kM*k_counter, -kM, kM*k_counter];
 
-Ginv = inv(G);
-
-G_radu = [1 1 1 1;
-          0 d_cgtop 0 -d_cgtop;
-          -d_cgtop 0 d_cgtop 0];
-
-S_x = 85000e-6;             % m^2
-S_y = 147000e-6;            % m^2
+S_x = 147000e-6;            % m^2
+S_y = 85000e-6;             % m^2
 S_z = 209500e-6;            % m^2
 
-C_D_drone = 0.5;
+C_D_drone = 0.8;
+
 
 
 %% Navigation
@@ -99,44 +96,48 @@ latitude = 53.885;
 %% Control
 
 % Feedback control (angular velocity loop)
-Kp_p = 2.874;
-Kp_q = 2.874;
-Kp_r = 1.3536;
+Kp_p = 11.350;
+Kp_q = 6.1660;
+Kp_r = 15.136;
 
-sat_p = 50;                        % max commandable p [deg/s]
-sat_q = 50;                        % max commandable q [deg/s]
-sat_r = 50;                        % max commandable r [deg/s]
+sat_p = 40;                        % max commandable p [deg/s]
+sat_q = 40;                        % max commandable q [deg/s]
+sat_r = 40;                        % max commandable r [deg/s]
 
 % Feedback control (attitude loop)
-Kp_roll = 5.6234;
-Kp_pitch = 5.6234;
-Kp_yaw = 5.6234;
+Kp_roll = 2.5734;
+Kp_pitch = 2.5734;
+Kp_yaw = 2.5734;
 
-sat_roll = 15;                      % max commandable roll angle [deg]
-sat_pitch = 15;                     % max commandable pitch angle [deg]
+sat_roll = 20;                      % max commandable roll angle [deg]
+sat_pitch = 20;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
-Kp_vx = -0.2723;
-Kp_vy = 0.2723;
-Kp_vz = 100;
-Td = 1/3;
-Ti = 5/3;
+Kp_vx = -0.05623;
+Kp_vy = 0.05623;
+Kp_vz = 6.0256;
+Td = 2/1;
+Ti = 10/1;
 
 Dc = (Td*s+1)*(1+1/(Ti*s));
 
 sat_Vx = 10;                     % max commandable velocity [m/s]
 sat_Vy = 10;                     % max commandable velocity [m/s]
-sat_Vz = 15;                     % max commandable velocity [m/s]
+sat_Vz = 20;                     % max commandable velocity [m/s]
 
 n = 51;
 Wn = 0.07;
 b = fir1(n,Wn,'low');
 
 % Feedback control (position loop)
-Kp_x = 1;
-Kp_y = 1;
-Kp_z = 1;
+Kp_x = 0.83272;
+Kp_y = 0.83272;
+Kp_z = 0.5290;
+
+
+
+
 myDictionaryObj = Simulink.data.dictionary.open('uavPackageDeliveryDataDict.sldd');
 dDataSectObj = getSection(myDictionaryObj,'Design Data');
 innerLoopCmdsBus = getValue(getEntry(dDataSectObj, "innerLoopCmdsBus"));
