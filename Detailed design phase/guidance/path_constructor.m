@@ -31,19 +31,11 @@ disp(omap)
 
 % Define start and end position
 
-% From = [From(1:3) (eul2quat(From(4:6)))];
-% %display(From)
-% To = [To(1:3) (eul2quat(To(4:6)))];
-
-% 
-% [waypoints, nWayPoints, states] = wp(From, To, omap);
-% [waypoints1, nWayPoints1] = wp(To, From, omap);
 waypoints_tot = [];
-% states_tot = [];
+
 
 for i = 2:size(targets,1)
-    % disp(targets(i, :))
-    % disp(i)
+   
     waypoints = wp(targets(i-1, :), targets(i, :), omap);
     
     
@@ -100,13 +92,6 @@ waypoint_struct(number_of_points).position = single([waypoints_tot_new(number_of
 waypoint_struct(number_of_points).params = single([-1;-1;-1;-1]);
 
 
-% for j = 2:number_of_points
-%     a = states_tot(j-1, 1) - states_tot(j, 1);
-%     o = states_tot(j-1, 2) - states_tot(j, 2);
-%     ang = atan(o/a);
-%     disp(ang);
-% 
-% end
 
 for i = 2:number_of_points-1
     waypoint_struct(i).mode = uint8(mode_vector(i-1,1)) ;
@@ -145,13 +130,13 @@ plot3(waypoints_tot_new(:,1),waypoints_tot_new(:,2), z_zeros, "r")
 % plot(states_tot(:,1),states_tot(:,2), "-y")
 
 % view([-31 63])
-test_ = out.PoseOut;
-plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "g");
+% test_ = out.PoseOut;
+% plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "g");
 xlabel('x [m]')
 ylabel('y [m]')
 zlabel('z [m]')
 axis([-100 800 -100 800])
-legend("Generated Path", "Simulated Path")
+legend("Generated Path")
 grid on
 hold off
 
