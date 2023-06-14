@@ -20,7 +20,7 @@ test_map = load("testing_map2.mat");
 %whos -file testing_map.mat omap3D
 
 Data = test_map.omap2D;
-omap2 = test_map.omap2D
+omap2 = test_map.omap2D;
 % Consider unknown spaces to be unoccupied
 omap2.FreeThreshold = omap2.OccupiedThreshold;
 omap = occupancyMap(Data,1);
