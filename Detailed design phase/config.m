@@ -127,7 +127,7 @@ sat_Vz = 20;                     % max commandable velocity [m/s]
 % Feedback control (position loop)
 Kp_x = 0.4;
 Kp_y = 0.4;
-Kp_z = 0.7542;
+Kp_z = 0.7656;
 Td_pos = 4/5;
 Ti_pos = 4;
 
