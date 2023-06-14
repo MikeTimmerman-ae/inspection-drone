@@ -114,27 +114,22 @@ sat_pitch = 20;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
-Kp_vx = -0.05623;
-Kp_vy = 0.05623;
-Kp_vz = 6.0256;
-Td = 2/1;
-Ti = 10/1;
-
-Dc = (Td*s+1)*(1+1/(Ti*s));
+Kp_vx = -0.1862;
+Kp_vy = 0.1862;
+Kp_vz = 35.892;
+Td = 1/3;
+Ti = 5/3;
 
 sat_Vx = 10;                     % max commandable velocity [m/s]
 sat_Vy = 10;                     % max commandable velocity [m/s]
 sat_Vz = 20;                     % max commandable velocity [m/s]
 
-n = 51;
-Wn = 0.07;
-b = fir1(n,Wn,'low');
-
 % Feedback control (position loop)
-Kp_x = 0.83272;
-Kp_y = 0.83272;
-Kp_z = 0.5290;
-
+Kp_x = 0.4;
+Kp_y = 0.4;
+Kp_z = 0.7542;
+Td_pos = 4/5;
+Ti_pos = 4;
 
 
 
