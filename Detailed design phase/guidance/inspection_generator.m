@@ -11,8 +11,8 @@ function inspectionStatesSpaced = inspection_generator(angle, nh, bl)
     inspectionStates(6,:) = [0; 0; -nh - 1.15*bl; 0];
     inspectionStates(7,:) = [0; 0; -nh; 0];
     inspectionStates(8,:) = [-sin(angle)*1.15*bl; 0; -nh + cos(angle)*1.15*bl; 0];
-    inspectionStates(9,:) = [-sin(angle)*1.15*bl; 8; -nh + cos(angle)*1.15*bl; 0];
-    inspectionStates(10,:) = [-0.15*bl; 8; -nh  + cos(angle)*0.15*bl;0];
+    inspectionStates(9,:) = [-sin(angle)*1.15*bl; 6; -nh + cos(angle)*1.15*bl; 0];
+    inspectionStates(10,:) = [-0.15*bl; 6; -nh  + cos(angle)*0.15*bl;0];
     inspectionStatesSpaced = [];
     
     inspectionStatesSpaced(1 ,:) = inspectionStates(1,:);

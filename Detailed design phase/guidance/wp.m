@@ -1,37 +1,35 @@
 function waypointsSpaced = wp(From ,To, omap)
     
     
-    
-    ss = stateSpaceSE2;
-
-    ss.StateBounds = [omap.XWorldLimits; omap.YWorldLimits; [-pi pi]];
-    sv = validatorOccupancyMap(ss);
-    sv.Map = omap;
-    sv.ValidationDistance = 0.1;
+    % 
+    % ss = stateSpaceSE2;
+    % 
+    % ss.StateBounds = [omap.XWorldLimits; omap.YWorldLimits; [-pi pi]];
     
     
-    planner = plannerRRTStar(ss,sv);
-    planner.MaxConnectionDistance = 50;
-    planner.GoalBias = 0.8;
-    planner.MaxIterations = 1000;
-    planner.ContinueAfterGoalReached = true;
-    planner.MaxNumTreeNodes = 20000;
+    
+    planner = plannerAStarGrid(omap);
+    % planner.MaxConnectionDistance = 50;
+    % planner.GoalBias = 0.8;
+    % planner.MaxIterations = 1000;
+    % planner.ContinueAfterGoalReached = true;
+    % planner.MaxNumTreeNodes = 20000;
     
     
-    [pthObj,solnInfo] = plan(planner,From,To);
+    pthObj = plan(planner,From,To, "world");
+    % 
+    % if (~solnInfo.IsPathFound)
+    %     disp("No Path Found by the RRT, terminating example")
+    %     return
+    % 
+    % end
     
-    if (~solnInfo.IsPathFound)
-        disp("No Path Found by the RRT, terminating example")
-        return
-    
-    end
-    
-    
-    waypoints = pthObj.States;
+    % disp(pthObj);
+    waypoints = pthObj;
    
-    nWayPoints = pthObj.NumStates;
+    nWayPoints = size(waypoints, 1);
     
-    disp(nWayPoints);
+    % disp(nWayPoints);
     % Calculate the distance between waypoints
     % distance = zeros(1,nWayPoints);
     % for i = 2:nWayPoints
@@ -70,7 +68,7 @@ function waypointsSpaced = wp(From ,To, omap)
         end
         
     end
-    disp(waypointsSpaced);
+    % disp(waypointsSpaced);
     % disp(timepoints)
     
     % % Compute states along the trajectory
