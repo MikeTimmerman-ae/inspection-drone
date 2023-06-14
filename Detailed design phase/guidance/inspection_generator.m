@@ -1,4 +1,4 @@
-function inspectionStatesSpaced = inspection_generator(angle, nh, bl)
+function [inspectionStatesSpaced, sum] = inspection_generator(angle, nh, bl)
     inspectionStates = [];
     % inspectionStates(1,:) = [0;0;0;0];
     inspectionStates(1,:) = [0;0;-nh;0];
@@ -17,7 +17,9 @@ function inspectionStatesSpaced = inspection_generator(angle, nh, bl)
     
     inspectionStatesSpaced(1 ,:) = inspectionStates(1,:);
     k = 2;
+    sum = nh;
     for i = 2:10
+        sum = sum + norm(inspectionStates(i, (1:3)) -  inspectionStates(i-1, (1:3)));
         % n = int((norm(inspectionStates(i, (1:3)) -  inspectionStates(i-1, (1:3)))) /10);
         if norm(inspectionStates(i, (1:3)) -  inspectionStates(i-1, (1:3))) > 80
             n = 8;
@@ -42,6 +44,7 @@ function inspectionStatesSpaced = inspection_generator(angle, nh, bl)
         end
         
     end
+
     % % disp(inspectionStatesSpaced);
 end
 
