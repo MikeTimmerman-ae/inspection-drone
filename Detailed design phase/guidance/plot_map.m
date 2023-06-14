@@ -21,8 +21,10 @@ grid on
 
 inspectionStatesSpaced = inspection_generator((1/3)*pi, 120, 80);
 disp(inspectionStatesSpaced)
-plot3(inspectionStatesSpaced(:, 1), inspectionStatesSpaced(:, 2), -inspectionStatesSpaced(:, 3), "r")
-axis([-100 100 -100 100])
+b = [[0 0 0 0]; inspectionStatesSpaced];
+disp(b)
+plot3(b(:, 1), b(:, 2), -b(:, 3), "r")
+% axis([-100 100 -100 100])
 legend("Generated Path", "Simulated Path")
 hold off
 % xlabel('x [m]')

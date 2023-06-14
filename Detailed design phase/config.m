@@ -120,9 +120,9 @@ Kp_vz = 35.892;
 Td = 3/2;
 Ti = 15/2;
 
-sat_Vx = 10;                     % max commandable velocity [m/s]
-sat_Vy = 10;                     % max commandable velocity [m/s]
-sat_Vz = 20;                     % max commandable velocity [m/s]
+sat_Vx = 3;                     % max commandable velocity [m/s]
+sat_Vy = 3;                     % max commandable velocity [m/s]
+sat_Vz = 3;                     % max commandable velocity [m/s]
 
 % Feedback control (position loop)
 Kp_x = 0.6095;
