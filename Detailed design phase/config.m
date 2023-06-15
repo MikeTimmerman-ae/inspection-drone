@@ -44,7 +44,8 @@ kM2 = kM * (1 - k_counter);
 
 % T-Motor Antigravity MN6007II KV160
 % with NS26x85
-TO_time = 0.05;              % s
+TO_time = 0.05;   % s
+k_motor = 50;
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
