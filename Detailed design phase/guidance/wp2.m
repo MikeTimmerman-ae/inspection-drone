@@ -1,4 +1,4 @@
-function waypointsSpaced = wp2(From ,To, omap)
+function [waypointsSpaced, sum] = wp2(From ,To, omap)
     ss = stateSpaceSE2;
 
     ss.StateBounds = [omap.XWorldLimits; omap.YWorldLimits; [-pi pi]];
@@ -32,8 +32,9 @@ function waypointsSpaced = wp2(From ,To, omap)
     waypointsSpaced = [];
     waypointsSpaced(1 ,:) = waypoints(1,1:2);
     k = 2;
+    sum = 0;
     for i = 2:nWayPoints
-        
+        sum = sum + norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2)));
         if norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2))) > 80
             n = 8;
         elseif norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2))) > 50
@@ -56,7 +57,10 @@ function waypointsSpaced = wp2(From ,To, omap)
         end
         
     end
-    disp(waypointsSpaced);
+    % disp(waypointsSpaced);
+
+
+
     
     
     

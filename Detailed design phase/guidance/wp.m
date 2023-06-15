@@ -1,4 +1,4 @@
-function waypointsSpaced = wp(From ,To, omap)
+function [waypointsSpaced, sum] = wp(From ,To, omap)
     
     
     % 
@@ -43,8 +43,10 @@ function waypointsSpaced = wp(From ,To, omap)
     % disp(waypoints(1,:));
     waypointsSpaced(1 ,:) = waypoints(1,1:2);
     k = 2;
+    sum = 0;
     for i = 2:nWayPoints
         % n = int((norm(inspectionStates(i, (1:3)) -  inspectionStates(i-1, (1:3)))) /10);
+        sum = sum + norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2)));
         if norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2))) > 80
             n = 8;
         elseif norm(waypoints(i, (1:2)) -  waypoints(i-1, (1:2))) > 50
@@ -66,8 +68,9 @@ function waypointsSpaced = wp(From ,To, omap)
             
             
         end
-        
+      
     end
+ 
     % disp(waypointsSpaced);
     % disp(timepoints)
     

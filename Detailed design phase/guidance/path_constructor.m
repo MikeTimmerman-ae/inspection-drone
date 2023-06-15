@@ -13,19 +13,20 @@ From = [0 0];
 To = [800 800];
 
 targets = [[1, 1];[300, 230];[700, 230];[700, 730];[300, 730];];
+targets2 = [[0, 0, 0];[300, 230, 0];[700, 230, 0];[700, 730, 0];[300, 730, 0];];
 % disp(size(targets, 1));
 %%%%%%%%%%%
 test_map = load("testing_map2.mat");
 %whos -file testing_map.mat omap3D
 
 Data = test_map.omap2D;
-
+omap2 = test_map.omap2D;
 % Consider unknown spaces to be unoccupied
-% omap.FreeThreshold = omap.OccupiedThreshold;
+omap2.FreeThreshold = omap2.OccupiedThreshold;
 omap = occupancyMap(Data,1);
 omap.FreeThreshold = Data.FreeThreshold;
 omap.OccupiedThreshold = Data.OccupiedThreshold;
-disp(omap)
+% disp(omap)
 % show(omap)
 
 
@@ -33,34 +34,34 @@ disp(omap)
 
 waypoints_tot = [];
 
-
+sum_tot = 15;
 for i = 2:size(targets,1)
    
-    waypoints = wp(targets(i-1, :), targets(i, :), omap);
-    
+    [waypoints, sum_wp] = wp(targets(i-1, :), targets(i, :), omap);
+    sum_tot = sum_tot + sum_wp;
     
     waypoints_tot = cat(1, waypoints_tot, waypoints(2:size(waypoints, 1), :));
     % states_tot = cat(1, states_tot, states(2:size(states, 1), :));
 end
-
+disp(sum_tot);
     % waypoints_tot = [waypoints_tot, waypoints];
 
 % waypoints_tot = [[0, 0]; waypoints_tot];
 waypoints_tot_new = [0, 0];
 for i = 1:size(waypoints_tot, 1)
     if mod(i, 10) == 0
-        disp(waypoints_tot(i, :));
+        % disp(waypoints_tot(i, :));
         waypoints_tot_new = cat(1, waypoints_tot_new, waypoints_tot(i, :));
     end
 end
-disp(size(waypoints_tot_new, 1));
+% disp(size(waypoints_tot_new, 1));
 % disp(states_tot);
 % disp(waypointsTest);
 angle = (1/3)*pi;
 nh = 120;
 bl = 82;
-inspectionStates = inspection_generator(angle, nh, bl);
-
+[inspectionStates, sum] = inspection_generator(angle, nh, bl);
+disp(sum);
 inspection_struct = struct('mode',[],'position',[], 'params',[]);
 inspection_struct = repmat(inspection_struct,size(inspectionStates, 1), 1);
 inspection_struct(1).mode = uint8(1) ;
@@ -124,19 +125,21 @@ assignin('base',"inspection_struct", inspection_struct);
 z_zeros = zeros(size(waypoints_tot_new(:,1)));
 z_zeros = z_zeros(:) +15;
 hold on
-plot3(waypoints_tot_new(:,1),waypoints_tot_new(:,2), z_zeros, "r")
+% plot3(waypoints_tot_new(:,1),waypoints_tot_new(:,2), z_zeros, "r")
+inspectionStates = [[0 0 0 0]; inspectionStates];
+plot3(inspectionStates(:,1),inspectionStates(:,2), -inspectionStates(:,3), "r")
 % scatter(targets(1,1),targets(1,2),30,".r")
 % scatter(targets(size(targets, 1),1),targets(size(targets, 1),2),30,".g")
 % plot(states_tot(:,1),states_tot(:,2), "-y")
 
 % view([-31 63])
-% test_ = out.PoseOut;
-% plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "g");
+test_ = out.PoseOut;
+plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "b");
 xlabel('x [m]')
 ylabel('y [m]')
 zlabel('z [m]')
-axis([-100 800 -100 800])
-legend("Generated Path")
+axis([-100 100 -100 100])
+legend("Generated Path", "Simulated Path")
 grid on
 hold off
 

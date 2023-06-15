@@ -114,20 +114,20 @@ sat_pitch = 20;                     % max commandable pitch angle [deg]
 sat_yaw = 180;                      % max commandable yaw angle [deg]
 
 % Feedback control (velocity loop)
-Kp_vx = -0.1862;
-Kp_vy = 0.1862;
+Kp_vx = -0.07413;
+Kp_vy = 0.07413;
 Kp_vz = 35.892;
-Td = 1/3;
-Ti = 5/3;
+Td = 3/2;
+Ti = 15/2;
 
-sat_Vx = 3;                     % max commandable velocity [m/s]
-sat_Vy = 3;                     % max commandable velocity [m/s]
-sat_Vz = 3;                     % max commandable velocity [m/s]
+sat_Vx = 10;                     % max commandable velocity [m/s]
+sat_Vy = 10;                     % max commandable velocity [m/s]
+sat_Vz = 15;                     % max commandable velocity [m/s]
 
 % Feedback control (position loop)
-Kp_x = 0.4;
-Kp_y = 0.4;
-Kp_z = 0.7656;
+Kp_x = 0.6095;
+Kp_y = 0.6095;
+Kp_z = 0.494;
 Td_pos = 4/5;
 Ti_pos = 4;
 
@@ -140,12 +140,4 @@ UAVPathManagerBus = getValue(getEntry(dDataSectObj, "uavPathManagerBus"));
 baseMission = getValue(getEntry(dDataSectObj, "baseMission"));
 copybaseMission = getValue(getEntry(dDataSectObj, "baseMission"));
 test_map = load("testing_map.mat", "-mat", "omap3D");
-
-
-From = [0, 0, 1, 0, 0, 0];
-To = [200, 200, 100, 0, 0, 0];
-
-
-turbine_1_pos = [60, 45, 110, 0, 0, 0];
-
 
