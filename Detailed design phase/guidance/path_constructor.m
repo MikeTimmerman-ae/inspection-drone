@@ -20,7 +20,7 @@ test_map = load("testing_map2.mat");
 %whos -file testing_map.mat omap3D
 
 Data = test_map.omap2D;
-omap2 = test_map.omap2D
+omap2 = test_map.omap2D;
 % Consider unknown spaces to be unoccupied
 omap2.FreeThreshold = omap2.OccupiedThreshold;
 omap = occupancyMap(Data,1);
@@ -125,19 +125,21 @@ assignin('base',"inspection_struct", inspection_struct);
 z_zeros = zeros(size(waypoints_tot_new(:,1)));
 z_zeros = z_zeros(:) +15;
 hold on
-plot3(waypoints_tot_new(:,1),waypoints_tot_new(:,2), z_zeros, "r")
+% plot3(waypoints_tot_new(:,1),waypoints_tot_new(:,2), z_zeros, "r")
+inspectionStates = [[0 0 0 0]; inspectionStates];
+plot3(inspectionStates(:,1),inspectionStates(:,2), -inspectionStates(:,3), "r")
 % scatter(targets(1,1),targets(1,2),30,".r")
 % scatter(targets(size(targets, 1),1),targets(size(targets, 1),2),30,".g")
 % plot(states_tot(:,1),states_tot(:,2), "-y")
 
 % view([-31 63])
-% test_ = out.PoseOut;
-% plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "g");
+test_ = out.PoseOut;
+plot3(test_(:, 1), test_(:, 2), -test_(:, 3), "b");
 xlabel('x [m]')
 ylabel('y [m]')
 zlabel('z [m]')
-axis([-100 800 -100 800])
-legend("Generated Path")
+axis([-100 100 -100 100])
+legend("Generated Path", "Simulated Path")
 grid on
 hold off
 
