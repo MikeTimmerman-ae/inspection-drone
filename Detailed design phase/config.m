@@ -39,14 +39,10 @@ kM = 1.1454812375861364e-05;             % Nm/(rad/s)^2
 kM2 = kM * (1 - k_counter);
 
 
-% MF2211
-%R_prop = 0.2794;                     % m            
-%kF = -0.00019205 / 1.225;            % {N/(rad/s)^2} / {kg/m^3}
-%kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 
 % T-Motor Antigravity MN6007II KV160
 % with NS26x85
-TO_time = 0.05;              % s
+k_motor = 20;
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
