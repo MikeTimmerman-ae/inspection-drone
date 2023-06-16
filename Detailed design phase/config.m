@@ -15,11 +15,13 @@ addpath('verification/model/test_inputs/')
 global param;
 
 param.m = 12.0248;          % kg
+m = 12.0248;          % kg
 
 Ix = 1.12755;      % kgm^2
 Iy = 0.61461;      % kgm^2
 Iz = 1.51166;      % kgm^2
 param.I = diag([Ix Iy Iz]);
+I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
 d_cgtop = 0.8175 / sqrt(2);          % m
