@@ -42,7 +42,23 @@ hold on
 xlabel('x [m]')
 ylabel('y [m]')
 zlabel('z [m]')
+disp(size(subarrays, 2));
+disp(subarrays);
+width = 190;                 % The largest integer in the sample intervals for obtaining width, length and height                                                     
+length = 20;                % can be changed as necessary to create different occupancy maps.
+height = 200;
 
+tic
+posx = [200, 200, 600, 600] ;
+posy = [250, 750, 250, 750;];
+pgon1 = polyshape([200 200 390 390],[270 250 250 270]);
+pgon2 = polyshape([200 200 390 390],[770 750 750 770]);
+pgon3 = polyshape([600 600 790 790],[270 250 250 270]);
+pgon4 = polyshape([600 600 790 790],[770 750 750 770]);
+plot(pgon1);
+plot(pgon2);
+plot(pgon3);
+plot(pgon4);
 for i = 1:size(subarrays, 2)
     % disp(size(subarrays{i},1));
     
@@ -64,8 +80,12 @@ for i = 1:size(subarrays, 2)
             
             [waypoints, sum_wp] = wp(subarr(k-1, :), subarr(k, :), omap);
             [waypoints2, sum_wp2] = wp2(subarr2(k-1, :), subarr2(k, :), omap2);
-            plot(waypoints(:,1), waypoints(:,2), "b")
-            plot(waypoints2(:,1), waypoints2(:,2), "r")
+            if i >= 15
+                if i <= 15
+                    plot(waypoints(:,1), waypoints(:,2), "b")
+                    plot(waypoints2(:,1), waypoints2(:,2), "r")
+                end
+            end
             sum_tot = sum_tot + sum_wp;
             sum_tot2 = sum_tot2 + sum_wp2;
     end

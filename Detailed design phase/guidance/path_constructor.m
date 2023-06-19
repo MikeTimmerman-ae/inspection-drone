@@ -47,7 +47,7 @@ disp(sum_tot);
     % waypoints_tot = [waypoints_tot, waypoints];
 
 % waypoints_tot = [[0, 0]; waypoints_tot];
-waypoints_tot_new = [0, 0];
+waypoints_tot_new = [];
 for i = 1:size(waypoints_tot, 1)
     if mod(i, 10) == 0
         % disp(waypoints_tot(i, :));
