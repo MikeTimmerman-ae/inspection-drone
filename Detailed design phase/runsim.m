@@ -5,11 +5,8 @@ iterations = 5;
 simout = cell(1, iterations);
 
 verification_map = load("verification_map.mat");
-    
-    
+  
 Data = verification_map.omap_verification2;
-
-% Consider unknown spaces to be unoccupied
 
 omap = occupancyMap(Data,1);
 omap.FreeThreshold = Data.FreeThreshold;
@@ -19,18 +16,11 @@ tic
 for idx = 1:iterations
     
     gridSize = 250;
-    
-  
-    
     x = randi([1, gridSize],1,1);
     y = randi([1, gridSize],1,1);
     %%%%%%%%%%%
     disp(x);
     disp(y)
-    
-    
-    
-    
     occupied = checkOccupancy(omap,[x y]);
     if occupied == 1
     
@@ -42,14 +32,7 @@ for idx = 1:iterations
         end 
     end
     targets = [[1, 1];[x, y];];
-    
-    % disp(occupied);
-    % disp(omap)
-    % show(omap)
-    
-    
-    % Define start and end position
-    
+
     verification_tot = [];
     
     
@@ -61,8 +44,6 @@ for idx = 1:iterations
         verification_tot = cat(1, verification_tot, verification(2:size(verification, 1), :));
       
     end
-    
-      
     verification_tot_new = [];
     for i = 1:size(verification_tot, 1)
         if mod(i, 10) == 0
