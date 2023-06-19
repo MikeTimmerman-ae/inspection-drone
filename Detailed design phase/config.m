@@ -15,11 +15,13 @@ addpath('verification/model/test_inputs/')
 global param;
 
 param.m = 12.0248;          % kg
+m = 12.0248;          % kg
 
 Ix = 1.12755;      % kgm^2
 Iy = 0.61461;      % kgm^2
 Iz = 1.51166;      % kgm^2
 param.I = diag([Ix Iy Iz]);
+I = diag([Ix Iy Iz]);
 
 param.g = 9.80665;           % m/s^2
 d_cgtop = 0.8175 / sqrt(2);          % m
@@ -37,14 +39,10 @@ kM = 1.1454812375861364e-05;             % Nm/(rad/s)^2
 kM2 = kM * (1 - k_counter);
 
 
-% MF2211
-%R_prop = 0.2794;                     % m            
-%kF = -0.00019205 / 1.225;            % {N/(rad/s)^2} / {kg/m^3}
-%kM = 4.90694039e-06 / 1.225;             % {Nm/(rad/s)^2} / {kg/m^3}
 
 % T-Motor Antigravity MN6007II KV160
 % with NS26x85
-TO_time = 0.05;              % s
+k_motor = 20;
 max_ang_vel_motor_actual = 314;              % rad/s (above this motors die)
 
 
@@ -120,9 +118,9 @@ Kp_vz = 35.892;
 Td = 3/2;
 Ti = 15/2;
 
-sat_Vx = 3;                     % max commandable velocity [m/s]
-sat_Vy = 3;                     % max commandable velocity [m/s]
-sat_Vz = 3;                     % max commandable velocity [m/s]
+sat_Vx = 10;                     % max commandable velocity [m/s]
+sat_Vy = 10;                     % max commandable velocity [m/s]
+sat_Vz = 15;                     % max commandable velocity [m/s]
 
 % Feedback control (position loop)
 Kp_x = 0.6095;
